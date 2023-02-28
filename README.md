@@ -11,4 +11,4 @@ To run this project
 4. run 'php artisan key:generate'
 5. start server 'php artisan serve'
 
-API is <yourhost>/api/restaurant/search
+API is <b>/api/restaurant/search</b>
