@@ -35,7 +35,6 @@ class RestaurantController extends Controller
             'location' => $lat.', '.$lng,
             'radius' =>   1500,
             'type' =>    'restaurant',
-            'rankby' =>  'distance',
             'key' =>     env('GOOGLE_MAP_API_KEY'),
         ]);
         
