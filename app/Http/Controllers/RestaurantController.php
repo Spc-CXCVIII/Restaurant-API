@@ -15,9 +15,10 @@ class RestaurantController extends Controller
 
     public function SearchByKeyword(Request $request)
     {
+      try
+      {
         $credentials_data = $request->validate([
-            'keyword' => 'nullable|required|string',
-            'radius' =>  'nullable|required|int'
+          'keyword' => 'nullable|required|string'
         ]);
 
         //! Get lat, lon from Keyword
@@ -39,5 +40,14 @@ class RestaurantController extends Controller
         ]);
         
         return $response->json();
+      }
+
+      catch (\Exception $e)
+      {
+        return response()->json([
+          'status' => 'error',
+          'message' => $e->getMessage()
+        ], 500);
+      }
     }
 }
