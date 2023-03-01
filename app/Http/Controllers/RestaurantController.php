@@ -32,14 +32,26 @@ class RestaurantController extends Controller
         $lng = $results['results'][0]['geometry']['location']['lng'];
 
         //! Find the restaurant
+
+        $restaurant_list = [];
         $response = Http::get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', [
-            'location' => $lat.', '.$lng,
-            'radius' =>   1500,
-            'type' =>    'restaurant',
-            'key' =>     env('GOOGLE_MAP_API_KEY'),
+            'location' => $lat . ', ' . $lng,
+            'radius' => 100,
+            'type' => 'restaurant',
+            'key' => env('GOOGLE_MAP_API_KEY'),
         ]);
         
-        return $response->json();
+        $restaurant_list = array_merge($restaurant_list, $response['results']);
+        while (isset($response['next_page_token'])) {
+            sleep(1);
+            $response = Http::get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', [
+                'pagetoken' => $response['next_page_token'],
+                'key' => env('GOOGLE_MAP_API_KEY'),
+            ]);
+            $restaurant_list = array_merge($restaurant_list, $response['results']);
+        }
+        
+        return $restaurant_list;
       }
 
       catch (\Exception $e)

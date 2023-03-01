@@ -19,5 +19,5 @@ use App\Http\Controllers\RestaurantController;
 Route::prefix('restaurant')
     ->controller(RestaurantController::class)
     ->group(function() {
-        Route::get('search', 'SearchByKeyword');
+        Route::post('search', 'SearchByKeyword');
     });
