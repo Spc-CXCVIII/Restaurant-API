@@ -2,7 +2,7 @@
 
 Feature
 
-- User can get restaurant list by enter a keyword
+- Get restaurant list by enter a keyword
 
 To run this project
 1. Download this project
