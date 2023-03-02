@@ -78,6 +78,8 @@ class RestaurantController extends Controller
       return response(
         array(
           'results' => $restaurant_list,
+          'lat' => $lat,
+          'lng' => $lng,
           'status' => 'ok'
         ),
         200
