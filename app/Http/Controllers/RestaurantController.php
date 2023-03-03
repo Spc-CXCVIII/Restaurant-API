@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
 class RestaurantController extends Controller
 {
@@ -19,6 +20,15 @@ class RestaurantController extends Controller
       $credentials_data = $request->validate([
         'keyword' => 'nullable|required|string'
       ]);
+
+      //! Check if keyword is cached
+      if (Cache::has($credentials_data['keyword'])) {
+        $restaurant_data = Cache::get($credentials_data['keyword']);
+        return response(
+          $restaurant_data,
+          200
+        );
+      }
 
       //! Get lat, lon from Keyword
       $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
@@ -74,14 +84,19 @@ class RestaurantController extends Controller
         );
       }
 
+      $restaurant_data = array(
+        'results' => $restaurant_list,
+        'lat' => $lat,
+        'lng' => $lng,
+        'status' => 'ok'
+      );
+
+      //! Cache data
+      Cache::put($credentials_data['keyword'], $restaurant_data, 60 * 10);
+
       //! Return the result
       return response(
-        array(
-          'results' => $restaurant_list,
-          'lat' => $lat,
-          'lng' => $lng,
-          'status' => 'ok'
-        ),
+        $restaurant_data,
         200
       );
     } catch (\Exception $e) {
