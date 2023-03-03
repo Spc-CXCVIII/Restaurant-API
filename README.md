@@ -19,7 +19,9 @@ composer install
 ```
 php artisan key:generate
 ```
-5. start server
+5. Add your Google Map API key to ```.env``` file
+
+6. start server
 ```
 php artisan serve
 ```
