@@ -1,8 +1,8 @@
 ## Restaurant list from Google map API
 
-# Using Laravel 10
-# PHP 8.1.0 Required
-# Composer 2.2.0 or greater
+- Using Laravel 10
+- PHP 8.1.0 Required
+- Composer 2.2.0 or greater
 
 Feature
 
